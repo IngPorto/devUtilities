@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link href="css/bootstrap.min.css" rel="stylesheet"/>
+	<script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="js/bootstrap.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+	<link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+	
+</head>
+<body>
+	<select id="selector-multiple-cadena-produccion" class="selectpicker" multiple="multiple">
+		<option value="PRODUCTOR/FABRICANTE">PRODUCTOR/FABRICANTE</option>
+		<option value="FACILITADOR O EMPRESA DE LOGISTICA">FACILITADOR O EMPRESA DE LOG&Iacute;STICA</option>
+		<option value="DISTRIBUIDOR MINORISTA">DISTRIBUIDOR MINORISTA</option>
+		<option value="DISTRIBUIDOR MAYORISTA">DISTRIBUIDOR MAYORISTA</option>
+		<option value="CORREDOR">CORREDOR</option>
+	</select>
+	<button onClick="guardarCadenaProduccion();">Mostrar</button>
+	<button onClick="imprimir_dato_plano();">Cargar</button>
+
+	<script type="text/javascript">
+		var cadenaNoJson = '{"0":"PRODUCTOR/FABRICANTE","1":"FACILITADOR O EMPRESA DE LOGISTICA","2":"DISTRIBUIDOR MINORISTA","3":"DISTRIBUIDOR MAYORISTA","4":"CORREDOR"}';
+
+		var arrayContent = ['PRODUCTOR/FABRICANTE','FACILITADOR O EMPRESA DE LOGISTICA'];
+
+		function imprimir_dato_plano(){
+			//var datoPlano = "{PRODUCTOR/FABRICANTE,FACILITADOR O EMPRESA DE LOGISTICA,DISTRIBUIDOR MAYORISTA}";
+			//var datoPlano = "{FACILITADOR O EMPRESA DE LOGISTICA}";
+			var datoPlano = "{0:PRODUCTOR/FABRICANTE}"
+			//var datoPlano = "{PRODUCTOR/FABRICANTE,FACILITADOR O EMPRESA DE LOGISTICA,DISTRIBUIDOR MINORISTA,DISTRIBUIDOR MAYORISTA,CORREDOR}";
+			// {PRODUCTOR/FABRICANTE [..] FACILITADOR O EMPRESA DE LOGISTICA}
+			var arrTemp = datoPlano.split(","); console.log("- Arreglo temporal despues del split: \n dato 1: "+arrTemp[0]+"\n dato 2: "+arrTemp[1]);
+			// { [..] PRODUCTOR/FABRICANTE 
+			var primerDato = arrTemp[0].split("{"); console.log("- Primer dato: \n dato 1:"+primerDato[0]+"\n dato 2: "+primerDato[1]);
+			// FACILITADOR O EMPRESA DE LOGISTICA [..] }
+			var ultimoDato = arrTemp[arrTemp.length - 1].split("}"); console.log("- Último dato: \n dato 1:"+ultimoDato[0]+"\n dato 2: "+ultimoDato[1]);
+			// FACILITADOR O EMPRESA DE LOGISTICA [..
+			var tempNewJson = "";
+			// Compruebo si solo hay un dato, si hay más de uno constuyo el json
+			if (arrTemp.length > 1) {
+				//  {"PRODUCTOR/FABRICANTE" // {"0 ":"
+				tempNewJson = '{"'+primerDato[1].replace(':','":"')+'"'; console.log("Tamaño del arreglo: "+arrTemp.length);
+				// evito el primero y el último
+				for (var i = 1; i < arrTemp.length - 1; i++) {
+					tempNewJson += ',"'+arrTemp[i].replace(':','":"')+'"'; console.log("Iteración: "+tempNewJson);
+				}
+				//  ,"FACILITADOR O EMPRESA DE LOGISTICA"}
+				tempNewJson += ',"'+ultimoDato[0].replace(':','":"')+'"}';
+			}
+			// Es igual, el tamaño del arreglo es 1
+			else{
+				console.log("Es igual");
+				tempNewJson = '{"'+(primerDato[1].replace(':','":"')).replace('}','"}');
+			}
+			
+			console.log(tempNewJson);
+			cargarNuevoRegistrosCadenaProduccion(tempNewJson);
+			//console.log(JSON.parse(datoPlano));
+		}
+
+		function cargarNuevoRegistrosCadenaProduccion(noJsonObj){ // cadenaNoJson
+			var jsonContenedor = JSON.parse(noJsonObj);
+			var el = document.getElementsByTagName('select')[0];
+			for (var i=0; i< Object.keys(jsonContenedor).length; i++) {
+				for (var i=0; i< el.options.length; i++) {
+					if (jsonContenedor[i] == el.options[i].value){
+						el.options[i].selected = true;
+						console.log("Activado "+ el.options[i].value);
+					}
+				}
+			}
+			$('#selector-multiple-cadena-produccion').multiselect('refresh');
+		}
+
+		$('#selector-multiple-cadena-produccion').multiselect();
+		$('#selector-multiple-cadena-produccion').change(function(){
+			console.log("actualizando campo");
+			console.log(guardarCadenaProduccion());
+		});
+
+		function cargarRegistrosCadenaProduccion2(){ // cadenaNoJson
+			var jsonContenedor = arrayContent;
+			var el = document.getElementsByTagName('select')[0];
+			for (var i=0; i< jsonContenedor.length; i++) {
+				for (var i=0; i< el.options.length; i++) {
+					if (jsonContenedor[i] == el.options[i].value){
+						el.options[i].selected = true;
+						console.log("Activado "+ el.options[i].value);
+					}
+				}
+			}
+			$('#selector-multiple-cadena-produccion').multiselect('refresh');
+		}
+
+		function guardarCadenaProduccion(){
+			var el = document.getElementsByTagName('select')[0];
+			var tempObjJson = '{';
+			var comma = '';
+			for (var i=0; i< el.options.length; i++) {
+				if (el.options[i].selected) {
+					tempObjJson += comma + '"'+ i +'":'+'"'+el.options[i].value+'"';
+					comma= ",";
+				}
+			}
+			return tempObjJson += "}";
+			//Poner en campo
+			//alert(tempObjJson);
+		}
+
+		function cargarRegistrosCadenaProduccion(){ // cadenaNoJson
+			var jsonContenedor = JSON.parse(cadenaNoJson);
+			var el = document.getElementsByTagName('select')[0];
+			for (var i=0; i< Object.keys(jsonContenedor).length; i++) {
+				for (var i=0; i< el.options.length; i++) {
+					if (jsonContenedor[i] == el.options[i].value){
+						el.options[i].selected = true;
+						console.log("Activado "+ el.options[i].value);
+					}
+				}
+			}
+			$('#selector-multiple-cadena-produccion').multiselect('refresh');
+		}
+	</script>
+</body>
+</html>
