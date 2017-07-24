@@ -1,0 +1,64 @@
+-- REPORTE TABLA SALUD
+-- BASE DE DATOS ORACLE
+-- EL OBJETIVO DE LA VISTA ES PASAR LOS REGISTROS ALMACENADOS COMO FILAS EN UNA CONSULTA COMO COLUMNAS
+
+
+CREATE VIEW REPORTE_SALUD AS
+SELECT * FROM
+  (select id_autodeclaracion,  
+        	FECHA,
+        	RAZON_SOCIAL,
+        	TIPO_DOCUMENTO,
+        	IDENTIFICACION,
+        	TELEFONO,
+        	DIRECCION,
+        	CORREO_ELECTRONICO,
+         CANTIDAD,
+         TOTAL_PAGAR,
+         OBSERVACIONES,
+         DV
+  from  (select r.ID_AUTODECLARACION, r.ID_PREGUNTA, r.VALOR from 
+          autodeclaracion ad, respuesta r
+          where ad.ID_FORMULARIO = 69
+          And ad.ID_AUTODECLARACION = r.ID_AUTODECLARACION
+          AND ID_PREGUNTA IN (1, 3, 4, 5, 6, 7, 8, 12, 14, 15, 20))  
+pivot(listagg(valor,',') within group(order by valor) for id_pregunta in (
+        1	FECHA,
+        3	RAZON_SOCIAL,
+        4	TIPO_DOCUMENTO,
+        5	IDENTIFICACION,
+        6	TELEFONO,
+        7	DIRECCION,
+        8	CORREO_ELECTRONICO,
+        12 CANTIDAD,
+        14 TOTAL_PAGAR,
+        15 OBSERVACIONES,
+        20 DV
+        )));
+
+
+--============================================
+
+SELECT *
+FROM REPORTE_SALUD;
+SELECT AD.NRO_FORMULARIO,  
+  RS.RAZON_SOCIAL,  
+  RS.TIPO_DOCUMENTO,
+  RS.IDENTIFICACION,
+  RS.DV,
+  RS.TELEFONO,
+  RS.DIRECCION,    
+  RS.CORREO_ELECTRONICO,
+  RS.CANTIDAD,
+  RS.TOTAL_PAGAR,  
+  AD.FECHA_DILIGENCIAMIENTO,  
+  AD.FECHA_PRESENTACION
+FROM REPORTE_SALUD RS,
+  AUTODECLARACION AD
+WHERE RS.ID_AUTODECLARACION = AD.ID_AUTODECLARACION			
+--AND RS.RAZON_SOCIAL like '%Mig%'
+--AND AD.NRO_FORMULARIO = 512300000052
+--AND RS.IDENTIFICACION = 12345
+;
+
+  
