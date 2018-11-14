@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Manejo de jerarquías (hijos) de componentes del DOM</title>
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+	<div id="layer">Buscar:
+		<div id="container302">
+			<div id="component302" style="margin: 1pt;">
+				<div>TIPO EMPRESA</div>
+				<select id="pregunta302" class="form-control input-sm" maxlength="60">
+					<option value="" selected="selected"></option>
+					<option value="P&Uacute;BLICA">PÚBLICA</option>
+					<option value="PRIVADA">PRIVADA</option>
+					<option value="MIXTA">MIXTA</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		//$('div#component302').children('div').value();
+		//var dat = $('div#component302').children('div')[0].value();
+		var dat = $('div#component302').children('div')[0].innerText;
+		$('div#component302').children('div')[0].innerText = '*'+dat;
+		console.log('*'+dat);
+	</script>
+</body>
+</html>

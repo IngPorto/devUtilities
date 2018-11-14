@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Control de acceso de una IP por medio de JS</title>
+</head>
+<body>
+	<button class="btn btn-primary center-block" onclick="redireccionar()" type="button">Sistema de Informaci&oacute;n Plan Jarill&oacute;n</button>
+
+	<!-- El script insertado a continuación permite obtener la ip del access point del cliente que ejecuta la aplicación y la guarda en una variable llamada "myip" -->
+	<script type="text/javascript" src="http://l2.io/ip.js?var=myip">
+	</script>
+
+	<!-- El siguiente script define una función que ejecuta el botón el DOM, la función usa la variable "myip" y comprueba que sea la esperada para permitir acceder a una ruta, si no, retorna un mensaje de acceso no autorizado -->
+	<script>
+	function redireccionar(){
+
+		if(myip == "200.29.103.65"){
+			window.location.href = "http://www.google.com/";
+		}else{
+			alert("Usuario no autorizado para entrar a esta página");
+		}
+	}
+	</script>
+</body>
+</html>

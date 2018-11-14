@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Búsqueda de una palabra en un objeto JSON</title>
+</head>
+<body>
+	<!-- Búsqueda de una palabra que se encuentra en un objeto JSON en jerarquía hijo o nieto, según su llave -->
+	<div id="layer">Buscar:
+		<input type="text" name="in" id="busqueda">
+		<button onclick="busqueda(document.getElementById('busqueda').value)">Buscar</button>
+	</div>
+	<script type="text/javascript">
+		var jsonObj = 
+		{ 
+			"Bienes":
+			{
+				"Equipos de construcción": 
+				[
+					"Taladro", "pulidora", "excavadora", "maquinaria", "mini dumpers", "mezcladoras", "partidores y cuñas hidráulicas", "equipos para transporte de material", "equipos para producción y transporte de concreto", "equipos para demolición de concreto y roca", "herramienta para perforación de roca"
+				],
+				"Equipos topográficos":
+				[
+					"Estaciones totales", "estaciones robóticas", "estaciones permanentes", "GPS", "teodolitos", "colectores", "radios", "distanciometros", "medidores laser y accesorios"
+				]
+			},
+			"Servicios":
+			{
+				"Servicios financieros y contables":
+				["Estudios financieros", "administradoras de fondos de pensiones y cesantías", "inversionista, factoraje", "casas de cambio y cobranza"]
+			},
+			"Obras":
+			{
+				"Construcción e ingeniería civil":
+				["Edificios", "carreteras", "vías e obras menores"]
+			}
+		};
+
+		var jsonObj2 = 
+		{ 
+			"Bienes":
+				[
+					"Equipos de construcción",
+					"Equipos topográficos",
+					"Suministros para obra civil",
+					"Equipos y materiales eléctricos",
+					"Elementos de ferretería",
+					"Elementos de protección personal",
+					"Dotación",
+					"Instrumentos musicales",
+					"Elementos deportivos",
+					"Insumos y equipos de oficina",
+					"Mobiliario, muebles y enseres",
+					"Equipos informáticos y de comunicaciones",
+					"Software y licencias",
+					"Productos para aseo y cafetería",
+					"Publicidad y papelería impresa",
+					"Artesanias",
+					"Elementos de seguridad y vigilancia",
+					"Vehículos",
+					"Combustibles",
+					"Insumos y repuestos para mantenimiento de vehículos",
+					"Equipos y productos médicos y farmacéuticos",
+					"Equipos e Suministros de laboratorio y Productos químicos",
+					"Productos alimenticios",
+					"Elementos y productos de jardinería",
+					"Señalización",
+					"Materiales vivos vegetal, animal y accesorios"
+				],
+			"Servicios":
+				[
+					"Servicios financieros y contables",
+					"Servicios jurídicos",
+					"Servicios administrativos",
+					"Servicio de tramites de transito",
+					"Servicios de transporte",
+					"Servicios de apoyo logístico",
+					"Operadores de telefonía",
+					"Servicios postal correo y mensajería",
+					"Servicio de alquiler de equipos de oficina",
+					"Servicio de contac center",
+					"Servicio de aseo y cafetería",
+					"Servicios de bodegaje y custodia",
+					"Servicio de formación y capacitación",
+					"Seguros",
+					"Servicios funerarios",
+					"Servicio de fotografía",
+					"Servicios médicos",
+					"Servicio de fumigación",
+					"Servicio de vigilancia",
+					"Servicios informáticos y de telecomunicaciones",
+					"Servicios de publicidad",
+					"Servicio de toma, digitación y base de datos",
+					"Mantenimiento de equipos informáticos",
+					"Mantenimiento semaforización",
+					"Mantenimiento de bienes muebles",
+					"Instalación y mantenimiento de equipos de seguridad",
+					"Mantenimiento de vehículos",
+					"Servicios topográficos",
+					"Servicio de jardinería",
+					"Servicio de acondicionamiento físico y actividades recreativas",
+					"Servicios agrícolas, pesquera, forestales y de fauna",
+					"Servicio de laboratorios",
+					"Consultorías"
+				],
+			"Obras":
+				[
+					"Construcción e ingeniería civil",
+					"Consultoría en ingeniería",
+					"Instalación y mantenimiento de aires acondicionados",
+					"Mantenimiento de bienes inmuebles",
+					"Mantenimientos viales"
+				]
+		};
+		function busqueda(datoBuscado){
+			// Tamaño del objeto Json que puede estar en la bd
+			var tamanoJson = Object.keys(jsonObj).length;
+			// Buscar los Padres, uno por uno
+			for (var i = 0; i < tamanoJson; i++) {
+				// Padre
+				var tempPadre = Object.keys(jsonObj)[i];
+				// obtengo los hijos de un padre
+				var tempObjValoresDelCombo = jsonObj[Object.keys(jsonObj)[i]];
+				// Tamaño de hijos de un padre
+				var tamanoActualNietos = Object.keys(jsonObj[Object.keys(jsonObj)[i]]).length;
+				// voy a buscar las conincidencias con cada hijo
+				for (var j = 0; j < tamanoActualNietos; j++) {
+					// Si el nombre del hijo es igual al dato buscado, hemos encontrado el dato
+					var tempHijo = Object.keys(jsonObj[Object.keys(jsonObj)[i]])[j];
+					if (Object.keys(jsonObj[Object.keys(jsonObj)[i]])[j] == datoBuscado){
+						// Encontrado
+						console.log("Encontrado como hijo");
+						// salir
+						return;
+					}//Buscar en su nieto
+					else{
+						// Tamaño del hijo (cuento nietos)
+						var tempTamano = Object.values(jsonObj[Object.keys(jsonObj)[i]])[j].length;
+						for (var k = 0; k < tempTamano; k++) {
+							// si el hijo es igual al dato buscado
+							if(Object.values(jsonObj[Object.keys(jsonObj)[i]])[j][k] == datoBuscado){
+								//Encontrado como nieto
+								console.log("Encontrado como nieto del hijo "+ Object.keys(jsonObj[Object.keys(jsonObj)[i]])[j]);
+								//Salir
+								return;
+							}// No se encontró
+							else{
+								console.log("No se encontró el dato");
+							}
+						}
+					}
+				}
+			}// fin for
+		}
+		document.getElementById("layer").innerHtml = JSON.stringify(jsonObj.Bienes);
+	</script>
+</body>
+</html>
