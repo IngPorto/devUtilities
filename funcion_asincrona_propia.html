@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Función asincrónica con callback</title>
 	
 </head>
 <body>
@@ -10,12 +10,14 @@
 		<button onclick="busqueda(document.getElementById('busqueda').value)">Buscar</button>
 	</div>
 	<script type="text/javascript">
+		/**
+		*	Función asíncrona (usando un Timeout )que elava al cuadrado un valor dado
+		*/
 		function asyncSqrt(value, callback) {
 		    console.log('START execution with value =', value);
 		    setTimeout(function() {
 		        callback(value, value * value);
 		    }, 0 | Math.random() * 100);
-		    console.log( 0 | Math.random() * 100);
 		}
 		 
 		asyncSqrt(2, function(value, result) {
