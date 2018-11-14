@@ -26,27 +26,23 @@
 		var arrayContent = ['PRODUCTOR/FABRICANTE','FACILITADOR O EMPRESA DE LOGISTICA'];
 
 		function imprimir_dato_plano(){
-			//var datoPlano = "{PRODUCTOR/FABRICANTE,FACILITADOR O EMPRESA DE LOGISTICA,DISTRIBUIDOR MAYORISTA}";
-			//var datoPlano = "{FACILITADOR O EMPRESA DE LOGISTICA}";
-			var datoPlano = "{0:PRODUCTOR/FABRICANTE}"
-			//var datoPlano = "{PRODUCTOR/FABRICANTE,FACILITADOR O EMPRESA DE LOGISTICA,DISTRIBUIDOR MINORISTA,DISTRIBUIDOR MAYORISTA,CORREDOR}";
-			// {PRODUCTOR/FABRICANTE [..] FACILITADOR O EMPRESA DE LOGISTICA}
+			var datoPlano = "{0:PRODUCTOR/FABRICANTE}";
 			var arrTemp = datoPlano.split(","); console.log("- Arreglo temporal despues del split: \n dato 1: "+arrTemp[0]+"\n dato 2: "+arrTemp[1]);
-			// { [..] PRODUCTOR/FABRICANTE 
+			
 			var primerDato = arrTemp[0].split("{"); console.log("- Primer dato: \n dato 1:"+primerDato[0]+"\n dato 2: "+primerDato[1]);
-			// FACILITADOR O EMPRESA DE LOGISTICA [..] }
+			
 			var ultimoDato = arrTemp[arrTemp.length - 1].split("}"); console.log("- Último dato: \n dato 1:"+ultimoDato[0]+"\n dato 2: "+ultimoDato[1]);
-			// FACILITADOR O EMPRESA DE LOGISTICA [..
+			
 			var tempNewJson = "";
 			// Compruebo si solo hay un dato, si hay más de uno constuyo el json
 			if (arrTemp.length > 1) {
-				//  {"PRODUCTOR/FABRICANTE" // {"0 ":"
+				
 				tempNewJson = '{"'+primerDato[1].replace(':','":"')+'"'; console.log("Tamaño del arreglo: "+arrTemp.length);
 				// evito el primero y el último
 				for (var i = 1; i < arrTemp.length - 1; i++) {
 					tempNewJson += ',"'+arrTemp[i].replace(':','":"')+'"'; console.log("Iteración: "+tempNewJson);
 				}
-				//  ,"FACILITADOR O EMPRESA DE LOGISTICA"}
+				
 				tempNewJson += ',"'+ultimoDato[0].replace(':','":"')+'"}';
 			}
 			// Es igual, el tamaño del arreglo es 1
@@ -57,10 +53,12 @@
 			
 			console.log(tempNewJson);
 			cargarNuevoRegistrosCadenaProduccion(tempNewJson);
-			//console.log(JSON.parse(datoPlano));
 		}
 
-		function cargarNuevoRegistrosCadenaProduccion(noJsonObj){ // cadenaNoJson
+		/**
+		*	cadenaNoJson
+		*/
+		function cargarNuevoRegistrosCadenaProduccion(noJsonObj){ 
 			var jsonContenedor = JSON.parse(noJsonObj);
 			var el = document.getElementsByTagName('select')[0];
 			for (var i=0; i< Object.keys(jsonContenedor).length; i++) {
@@ -80,7 +78,10 @@
 			console.log(guardarCadenaProduccion());
 		});
 
-		function cargarRegistrosCadenaProduccion2(){ // cadenaNoJson
+		/**
+		*	cadenaNoJson
+		*/
+		function cargarRegistrosCadenaProduccion2(){ 
 			var jsonContenedor = arrayContent;
 			var el = document.getElementsByTagName('select')[0];
 			for (var i=0; i< jsonContenedor.length; i++) {
@@ -105,11 +106,12 @@
 				}
 			}
 			return tempObjJson += "}";
-			//Poner en campo
-			//alert(tempObjJson);
 		}
 
-		function cargarRegistrosCadenaProduccion(){ // cadenaNoJson
+		/**
+		*	cadenaNoJson
+		*/
+		function cargarRegistrosCadenaProduccion(){ 
 			var jsonContenedor = JSON.parse(cadenaNoJson);
 			var el = document.getElementsByTagName('select')[0];
 			for (var i=0; i< Object.keys(jsonContenedor).length; i++) {
