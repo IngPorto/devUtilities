@@ -94,8 +94,8 @@
 
 function post ()
 {
-    $user_folder = "IEAC6FG3I4M4TGUD";
-    $access_token = 'eyJ0dCI6InAiLCJhbGciOiJIUzI1NiIsInR2IjoiMSJ9.eyJkIjoie1wiYVwiOjMwODU1MzEsXCJpXCI6Njg5MTIzMixcImNcIjo0NjE2NTAwLFwidVwiOjY2NTYwMzMsXCJyXCI6XCJVU1wiLFwic1wiOltcIldcIixcIkZcIixcIklcIixcIlVcIixcIktcIixcIkNcIixcIkRcIixcIkFcIixcIkxcIl0sXCJ6XCI6W10sXCJ0XCI6MH0iLCJpYXQiOjE1ODExMjgxNjZ9.4Eb0o_Qc_I8ZNNBD82_TYAWymf78FWAV1hSG07gFR9c';
+    $user_folder = "...";
+    $access_token = "...";
     
     $query = "folders/{$user_folder}/tasks";
     $URL = "https://www.wrike.com/api/v4/{$query}";
