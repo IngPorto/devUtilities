@@ -76,7 +76,12 @@
 	<script>
         /**
          * A continución se obtiene el reproductor H5Player para controlar sus eventos, desde
-         * el código o desde la consola del navegador
+         * el código o desde la consola del navegador.
+		 * 
+		 * Cuando el video termina se hace lo siguiente:
+		 * 	- se consume un servicio
+		 * 	- se sale de fullscreen
+		 * 	- 500 milisegundos después se realiza una animación que scrolea la pantalla y quita el blur de la encuesta
          */
 		var H5P2;
 		var H5Player;
