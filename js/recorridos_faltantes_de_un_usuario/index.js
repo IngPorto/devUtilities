@@ -3,7 +3,6 @@
  * js. Se debe identificar cuales de los usuarios de stages_user no ha pasado 
  * por todos los stages. Todos los usuario son identificados con los ids
  */
-
 import stages from './stages'
 import stages_user from './stages_user'
 import ids from './ids'
